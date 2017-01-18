@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+    说明：1、文档中只能有一个fieldTypes标签用于管理field类型。类型以fieldType进行标记。属性有code、name
+     2、不同类型的field放到不同的fields标签中，每个fields标签都包含一个type属性。
+     3、每个属性都放到各自分类的fields标签中，以field进行标记。属性有code、name、canAddItem（用于标记用户是否可以增加自定义项）
+     4、每个field的项以item进行标记。属性有code、name
+ -->
+<dict>
+    <fieldTypes>
+        <fieldType code="SYS_CNF" name="系统配置"/>
+    </fieldTypes>
+    <fields type="SYS_CNF">
+        <field code="COMPANY_USER" name="公司账号" canAddItem="false">
+            <!-- 企业账号前缀-->
+            <item code="COMPANY_NO_PREFIX" name="QY"/>
+            <!-- 企业账号前缀长度 -->
+            <item code="COMPANY_NO_ROOT_LIUSHUI_LEN" name="2"/>
+            <!-- 企业账号后缀长度 -->
+            <item code="COMPANY_NO_SUB_LIUSHUI_LEN" name="5"/>
+        </field>
+        <field code="EMPLOYEE_USER" name="从业人员账号" canAddItem="false">
+            <!-- 从业人员账号前缀 -->
+            <item code="EMPLOYEE_NO_PREFIX" name="EMP"/>
+            <!--  -->
+            <item code="EMPLOYEE_NO_FORMAT" name="00000"/>
+        </field>
+        <field code="IMG_COMPRESS" name="压缩照片" canAddItem="false">
+            <!-- 快递员账号前缀 -->
+            <item code="IMG_WIDTH" name="300"/>
+            <!--  -->
+            <item code="IMG_HEIGHT" name="300"/>
+        </field>
+    </fields>
+</dict>

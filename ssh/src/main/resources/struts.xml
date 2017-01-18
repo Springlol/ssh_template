@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+        "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+    <!-- 设置Web应用的默认编码集为UTF-8 -->
+    <constant name="struts.i18n.encoding" value="UTF-8"/>
+    <!-- 设置Web应用的默认Locale为zh_CN -->
+    <!-- <constant name="struts.locale" value="zh_CN" /> -->
+    <!-- 设置Struts2应用的国际化资源文件，多个文件中间可用逗号分隔 -->
+    <constant name="struts.custom.i18n.resources" value="messageResource"/>
+    <!-- 设置Struts2默认的ObjectFactory为spring,指定由spring负责action对象的创建 -->
+    <constant name="struts.objectFactory" value="spring"/>
+    <!-- 设置Struts2应用是否处于开发模式，通常在开发调试阶段设为true,正式上线后可设为false -->
+    <constant name="struts.devMode" value="true"/>
+    <!-- 是否自动重新加载配置 -->
+    <constant name="struts.convention.classes.reload" value="true"/>
+    <constant name="struts.configuration.xml.reload" value="true"/>
+
+    <constant name="struts.multipart.saveDir" value="/tmp"/>
+    <!-- 设置Struts2的文件上传最大值，单位为字节 -->
+    <constant name="struts.multipart.maxSize" value="52428800"/>
+    <!-- 修改convention的默认结果集位置 -->
+    <constant name="struts.convention.result.path" value="/WEB-INF/pages"/>
+
+    <!--  -->
+    <package name="dhht_wxwp" extends="struts-default">
+        <!-- 配置拦截器 -->
+        <interceptors>
+            <interceptor name="permissionInterceptor" class="com.zt.web.interceptor.PermissionInterceptor"/>
+            <interceptor name="cacheInterceptor" class="com.zt.web.interceptor.CacheInterceptor"/>
+            <interceptor-stack name="interceptorStack">
+                <interceptor-ref name="defaultStack"></interceptor-ref>
+                <!-- 权限拦截器 -->
+                <!--<interceptor-ref name="permissionInterceptor"></interceptor-ref>-->
+                <interceptor-ref name="cacheInterceptor"></interceptor-ref>
+            </interceptor-stack>
+        </interceptors>
+
+        <!-- 配置默认拦截器 -->
+        <default-interceptor-ref name="interceptorStack"></default-interceptor-ref>
+        <!--         <default-interceptor-ref name="wxInterceptorStack"></default-interceptor-ref> -->
+
+
+        <!-- 定义全局result -->
+        <global-results>
+            <!-- 定义名为exception的全局result -->
+            <result name="exception">/exception.jsp</result>
+            <!-- 登陆页、首页 -->
+            <result name="/" type="redirect">/</result>
+            <!-- 主界面 -->
+            <result name="main" type="redirect">/main</result>
+            <!-- 无权限 -->
+            <result name="noPermission">/noPermission.jsp</result>
+            <result name="invalid.token">/noPermission.jsp</result>
+            <result name="weChat">/WEB-INF/pages/weixin/login.jsp</result>
+            <result name="wxLoginResult" type="redirect">${targetPath}</result>
+        </global-results>
+
+        <!-- 定义全局异常映射 -->
+        <global-exception-mappings>
+            <!-- 捕捉到Exception异常(所有异常)时跳转到exception所命名的视图上 -->
+            <exception-mapping exception="java.lang.Exception" result="exception"/>
+        </global-exception-mappings>
+    </package>
+</struts>
