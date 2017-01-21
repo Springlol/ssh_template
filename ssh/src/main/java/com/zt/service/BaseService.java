@@ -44,12 +44,12 @@ public abstract class BaseService<T> {
 	/**
 	 * 根据指定类型，id查询实体对象
 	 *
-	 * @param t
+	 * @param e
 	 * @param id
 	 * @return
 	 */
-	public T getByEntityId(Class<T> t, String id) {
-		return (T) baseDao.get(t, id);
+	public <E> E getByEntityId(Class<E> e, String id) {
+		return (E) baseDao.get(e, id);
 	}
 
 	/**
@@ -65,11 +65,11 @@ public abstract class BaseService<T> {
 	/**
 	 * 查询指定类型的对象
 	 *
-	 * @param tClass
+	 * @param eClass
 	 * @return
 	 */
-	public List<T> findAll(Class<T> tClass) {
-		String hql = DaoUtil.getFindPrefix(tClass);
+	public <E> List<E> findAll(Class<E> eClass) {
+		String hql = DaoUtil.getFindPrefix(eClass);
 		return baseDao.find(hql);
 	}
 
@@ -92,8 +92,8 @@ public abstract class BaseService<T> {
 	 * @param ids
 	 * @return
 	 */
-	public List<T> findByIds(Class<T> t, Collection<String> ids) {
-		String hql = DaoUtil.getFindPrefix(t) + " WHERE id in ( :ids ) ";
+	public <E> List<E> findByIds(Class<E> e, Collection<String> ids) {
+		String hql = DaoUtil.getFindPrefix(e) + " WHERE id in ( :ids ) ";
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("ids", ids);
 		return baseDao.find(hql, params);
@@ -117,10 +117,10 @@ public abstract class BaseService<T> {
 	 * @param idStr
 	 * @return
 	 */
-	public List<T> findByIdStr(Class<T> t, String idStr) {
+	public <E> List<E> findByIdStr(Class<E> e, String idStr) {
 		String[] split = idStr.split(",");
 		List<String> ids = Arrays.asList(split);
-		return findByIds(t, ids);
+		return findByIds(e, ids);
 	}
 
 	/**
@@ -149,13 +149,13 @@ public abstract class BaseService<T> {
 	/**
 	 * 根据条件查询指定对象
 	 *
-	 * @param tClass
+	 * @param eClass
 	 * @param condition
 	 * @param params
 	 * @return
 	 */
-	public List<T> findByCondition(Class<T> tClass, String condition, Map<String, Object> params) {
-		String hql = DaoUtil.getFindPrefix(tClass);
+	public <E> List<E> findByCondition(Class<E> eClass, String condition, Map<String, Object> params) {
+		String hql = DaoUtil.getFindPrefix(eClass);
 		return baseDao.find(hql + condition, params);
 	}
 
@@ -176,34 +176,34 @@ public abstract class BaseService<T> {
 	/**
 	 * 分页查询指定对象
 	 *
-	 * @param tClass
+	 * @param eClass
 	 * @param condition
 	 * @param params
 	 * @param rows
 	 * @param page
 	 * @return
 	 */
-	public List<T> findByPage(Class<T> tClass, String condition, Map<String, Object> params, int rows, int page) {
-		String hql = DaoUtil.getFindPrefix(tClass);
+	public <E> List<E> findByPage(Class<E> eClass, String condition, Map<String, Object> params, int rows, int page) {
+		String hql = DaoUtil.getFindPrefix(eClass);
 		return baseDao.find(hql + condition, params, page, rows);
 	}
 
 	/**
 	 * 更新对象
 	 *
-	 * @param t
+	 * @param e
 	 */
-	public void updateEntity(T t) {
-		baseDao.saveOrUpdate(t);
+	public <E> void updateEntity(E e) {
+		baseDao.saveOrUpdate(e);
 	}
 
 	/**
 	 * 删除对象
 	 *
-	 * @param t
+	 * @param e
 	 */
-	public void deleteEntity(T t) {
-		baseDao.delete(t);
+	public <E> void deleteEntity(E e) {
+		baseDao.delete(e);
 	}
 
 	/**
@@ -211,8 +211,8 @@ public abstract class BaseService<T> {
 	 *
 	 * @param t
 	 */
-	public void deleteEntityByCollection(Collection<T> t) {
-		for (T t1 : t) {
+	public <E> void deleteEntityByCollection(Collection<E> e) {
+		for (E t1 : e) {
 			deleteEntity(t1);
 		}
 	}
@@ -229,11 +229,11 @@ public abstract class BaseService<T> {
 	/**
 	 * 根据id删除指定对象
 	 *
-	 * @param t
+	 * @param eClass
 	 * @param id
 	 */
-	public void deleteById(Class<T> t, String id) {
-		baseDao.delete(t, id);
+	public <E> void deleteById(Class<E> eClass, String id) {
+		baseDao.delete(eClass, id);
 	}
 
 	/**
@@ -250,12 +250,12 @@ public abstract class BaseService<T> {
 	/**
 	 * 通过id集合删除
 	 *
-	 * @param t
+	 * @param e
 	 * @param ids
 	 */
-	public void deleteByIds(Class<T> t, Collection<String> ids) {
+	public <E> void deleteByIds(Class<E> e, Collection<String> ids) {
 		for (String id : ids) {
-			deleteById(t, id);
+			deleteById(e, id);
 		}
 	}
 
@@ -275,20 +275,20 @@ public abstract class BaseService<T> {
 	 *
 	 * @param idStr
 	 */
-	public void deleteByIdStr(Class<T> t, String idStr) {
+	public <E> void deleteByIdStr(Class<E> e, String idStr) {
 		String[] ids = idStr.split(",");
 		List<String> idList = Arrays.asList(ids);
-		deleteByIds(t, idList);
+		deleteByIds(e, idList);
 	}
 
 
 	/**
 	 * 保存对象
 	 *
-	 * @param t
+	 * @param e
 	 */
-	public void saveEntity(T t) {
-		baseDao.saveOrUpdate(t);
+	public <E> void saveEntity(E e) {
+		baseDao.saveOrUpdate(e);
 	}
 
 

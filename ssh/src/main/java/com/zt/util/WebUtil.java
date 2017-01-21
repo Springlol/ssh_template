@@ -281,7 +281,7 @@ public class WebUtil {
 	//修改密码后改变session中loginUser的isChangedPWD
 	public static void updateChangePwdFlagInSession() {
 		User user = getLoginUser();
-		user.setIsChangedPWD(true);
+		//user.setIsChangedPWD(true);
 		setLoginUser(user);
 	}
 
